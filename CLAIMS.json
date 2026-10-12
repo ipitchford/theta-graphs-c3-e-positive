@@ -1,0 +1,12 @@
+{
+  "version": "1.1-candidate",
+  "creator": "Anonymous",
+  "status": "unrefereed candidate",
+  "claims": [
+    {"id":"C1","statement":"For every integer a>=b>=3, theta(a,b,3) is e-positive.","evidence":"paper.tex: thm:main, lem:main","scope":"unrestricted written proof using cited composition expansion"},
+    {"id":"C2","statement":"The negative preimages are uniquely indexed by actual threshold-crossing window indices; the unrestricted converse for arbitrary reversed prefixes is false.","evidence":"paper.tex: lem:pre; code/review_regressions.py","scope":"written correction and bounded regression"},
+    {"id":"C3","statement":"A nonempty target group with first part at least two has zero total iff m=4,r=0,L=1,g=(0,2,2),J_k=2.","evidence":"paper.tex: equality classification; checks/review-regressions.md","scope":"written proof; not a partition-level zero-coefficient classification"},
+    {"id":"C4","statement":"Theta graphs with shortest path at most three are e-positive.","evidence":"C1 plus cited Wang c=1 and Chen-He-Wang c=2 results","scope":"under manuscript graph conventions"}
+  ],
+  "not_claimed":["general shortest path at least four","formal verification","external peer review","four-star REF status","complete publication or archive readback"]
+}

@@ -1,0 +1,3 @@
+Publication replay: CPython 3.12.11, macOS, standard library only.
+Portable commands use python3. Python -O regressions retain explicit checks.
+Manuscript: TeX Live 2026, latexmk, BibTeX, Latin Modern fonts.

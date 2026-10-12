@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0",
+  "contributionMap": [
+    {"claim":"Theta graphs theta(a,b,3) are e-positive for a >= b >= 3","unit":"statement","paperLocation":"Theorem 1","searches":[{"date":"2026-10-12","query":"theta graphs c=3 e-positive","corpus":"web and arXiv; bounded intake search"}],"closestPriorWork":"Chen, He and Wang, Clocks are e-positive, Theorem 3.1 general expansion and c=2 full-fibre method","verdict":"new-in-bounded-search"},
+    {"claim":"Composition expansion and partial-reversal full-fibre method","unit":"method","paperLocation":"Sections 2 and 5","searches":[{"date":"2026-10-12","query":"Chen He Wang Clocks are e-positive","corpus":"arXiv full text"}],"closestPriorWork":"arXiv:2410.07581v2, Section 3","verdict":"known-cited"}
+  ],
+  "sourcesReadInFull":[{"citation":"Chen, He and Wang, arXiv:2410.07581v2","usedFor":"Load-bearing expansion and inherited strategy","readWhat":"Relevant full-text theorem statements, definitions and proof of Theorem 3.1; alternative Theorem 3.2 and c=2 method context","date":"2026-10-12","evidenceLocator":"https://arxiv.org/html/2410.07581v2, Section 3; CITATION_AUDIT.md"}],
+  "limitationTriage":[
+    {"limitation":"Zero groups previously only observed finitely","closingQuestion":"Can strictness in the gap inequalities classify equality?","triedOrSearched":"Tracked each inequality and checked boundary fixtures","estimatedCost":"Targeted analytic extension","cheap":true,"decision":"CLOSED","reasonOpen":"","whyNotClosedNow":""},
+    {"limitation":"Shortest path at least four","closingQuestion":"Does the c=3 one-deficit bound extend?","triedOrSearched":"Reviewed general expansion and failed long-part inference; retained theta(4,2,2) counterexample","estimatedCost":"Unbounded new research","cheap":false,"decision":"OPEN","reasonOpen":"The stated coefficient and deficit bounds are specific to c=3","whyNotClosedNow":"No established proof controls all weighted preimages for general c"}
+  ],
+  "extensionScout":{"by":"Codex internal analysis","date":"2026-10-12","proposals":["Sharp zero-group classification","Reusable separated-suffix lemma"],"actions":["Proposition 1 proves exact iff classification","Lemma 6 states its cost hypotheses explicitly; no unsupported wider application claimed"]}
+}

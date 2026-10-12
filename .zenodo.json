@@ -1,0 +1,28 @@
+{
+  "title": "Theta graphs with a three-edge path are e-positive",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "description": "Unrefereed written-proof candidate: theta(a,b,3) is e-positive for every a>=b>=3. The proof builds on Chen, He and Wang’s composition expansion and partial-reversal method; the contribution is c=3 negative-set and full weighted-fibre accounting, with an analytic zero-group classification. Exact finite tests through 24 vertices are internal checks, not a proof of the universal quantifier, formal verification or external peer review. General shortest path at least four remains open here.",
+  "creators": [
+    {
+      "name": "Anonymous"
+    }
+  ],
+  "version": "1.1.0-candidate",
+  "publication_date": "2026-10-12",
+  "access_right": "open",
+  "license": "cc-zero",
+  "keywords": [
+    "chromatic symmetric functions",
+    "theta graphs",
+    "e-positivity",
+    "compositions"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/ipitchford/theta-graphs-c3-e-positive",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}

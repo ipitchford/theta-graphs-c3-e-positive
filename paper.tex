@@ -1,0 +1,303 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem*{conjS}{Conjecture S}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\newcommand{\rev}{\overline}
+\DeclareMathOperator{\cost}{cost}
+\newcommand{\Tp}{\Theta^{+}}
+\newcommand{\Tm}{\Theta^{-}}
+
+\title{Theta graphs $\theta_{ab3}$ are $e$-positive}
+\author{Anonymous}
+\date{Version 1.1.0-candidate, 12 October 2026\\\small DOI: 10.5281/zenodo.23312724}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A theta graph $\theta_{abc}$ consists of two vertices joined by three internally disjoint paths of lengths $a$, $b$ and $c$. D.\,G.\,L.~Wang conjectured that every theta graph has an $e$-positive chromatic symmetric function. The cases $c=1$ (cycle-chords) and $c=2$ (clocks) are known. This paper proves that $\theta_{ab3}$ is $e$-positive for every $a\ge b\ge3$. Starting directly from Chen, He and Wang's general composition expansion, we classify its negative contributions and adapt their partial-reversal and full-fibre method to $c=3$. A gap-vector accounting bounds the total weighted cost even when several negative terms share a target: at most one gap can have a positive deficit. We also classify exactly the zero-sum nonempty groups whose first part is at least two. Exact finite checks through $24$ vertices test the stated coefficient formulas and accounting identities; the unrestricted result rests on the written proof. The case of shortest path at least four remains open here.
+\end{abstract}
+
+\section{Introduction}
+
+For a finite simple graph $G$ with vertex set $V$, Stanley's chromatic symmetric function~\cite{Stanley1995} is $X_G=\sum_\kappa\prod_{v\in V}x_{\kappa(v)}$, the sum running over proper colourings $\kappa\colon V\to\mathbb{Z}_{>0}$. The graph $G$ is \emph{$e$-positive} if $X_G$ is a nonnegative combination of elementary symmetric functions $e_\lambda$. The Stanley--Stembridge conjecture, now proved by Hikita~\cite{Hikita2024}, is the best-known instance of this question; Dahlberg, Foley and van Willigenburg~\cite{DFvW2017} give background on $e$-positivity for broader graph classes.
+
+For integers $a\ge b\ge c\ge 1$, the \emph{theta graph} $\theta_{abc}$ is formed by two vertices joined by three internally disjoint paths with $a$, $b$ and $c$ edges. It has $a+b+c$ edges and $n=a+b+c-1$ vertices. Wang~\cite[Conjecture~4.1]{Wang2024cyclechords} conjectured that every $\theta_{abc}$ is $e$-positive. Wang proved the case $c=1$ (cycle-chords)~\cite{Wang2024cyclechords}, and Chen, He and Wang proved the case $c=2$ (clocks)~\cite{ChenHeWang2024}.
+
+\begin{theorem}\label{thm:main}
+For all integers $a\ge b\ge 3$, the theta graph $\theta_{ab3}$ is $e$-positive. Hence every theta graph $\theta_{abc}$ with $c\le 3$ is $e$-positive.
+\end{theorem}
+
+The second sentence follows from the first together with~\cite{Wang2024cyclechords,ChenHeWang2024}. We use simple theta graphs, so the three paths are distinct; if the notation is extended to $b=c=1$ by merging repeated edges, the underlying graph is a cycle (or $K_2$ when $a=1$), already $e$-positive. The edge and vertex counts above refer to the nondegenerate theta construction.
+
+\paragraph{Method and contribution.} The starting point is the expansion $X_{\theta_{ab3}}=\sum_I D_Iw_Ie_I$ over compositions $I$ of $n$, taken directly from~\cite[Theorem~3.1]{ChenHeWang2024} (Section~\ref{sec:prelim}). The composition expansion, partial reversals and full-fibre strategy are prior work. The contribution here is their $c=3$ implementation: an exact negative-set classification, a one-deficit gap bound and a sharp classification of zero-sum groups. The coefficients $D_I$ can be negative. The argument has four steps.
+\begin{enumerate}
+\item The cited expansion gives an explicit prefix-sum formula and its closed forms (Lemmas~\ref{lem:phi} and~\ref{lem:closed}); no removal of an involution is needed.
+\item The negative set $N=\{I: D_I<0\}$ is described exactly, and $D_I\ge -6$ (Lemma~\ref{lem:neg}).
+\item Each $H\in N$ is sent to a composition $\psi_3(H)$ with the same multiset of parts by reversing a prefix. The map $\psi_3$ is not injective on $N$, but the regrouping remains valid provided no target lies in $N$.
+\item The full group sum at each target is nonnegative (Lemmas~\ref{lem:one} and~\ref{lem:main}). The main case uses a gap vector of the target and a per-gap comparison of cost against gain.
+\end{enumerate}
+Section~\ref{sec:comp} lists the exact computations, and Section~\ref{sec:general} explains the boundary of the result.
+
+\section{Preliminaries}\label{sec:prelim}
+
+\subsection{Compositions}
+A composition $I=i_1i_2\cdots i_z$ of $n$ is a sequence of positive integers with sum $|I|=n$; $\ell(I)=z$. Write $\rev I=i_z\cdots i_1$ for the reversal, $e_I=e_{i_1}\cdots e_{i_z}$, and $P_I(k)=i_1+\dots+i_k$ for prefix sums, with $P_I(0)=0$. Following~\cite{ChenHeWang2024}, put
+\[
+w_I=i_1(i_2-1)(i_3-1)\cdots(i_z-1).
+\]
+Only compositions with $w_I\ne0$ contribute below; for these, $i_j\ge 2$ for all $j\ge 2$. For integers $x\in[0,n]$,
+\begin{align*}
+\Tp_I(x)&=\min\{P_I(k):0\le k\le z,\ P_I(k)\ge x\}-x,\\
+\Tm_I(x)&=x-\max\{P_I(k):0\le k\le z,\ P_I(k)\le x\},
+\end{align*}
+and $\Tm_I(x)=\Tp_{\rev I}(n-x)$~\cite[Lemma~2.5]{ChenHeWang2024}. Let $e_2(y_1,\dots,y_k)=\sum_{i<j}y_iy_j$.
+
+\begin{definition}[{\cite{Wang2024cyclechords,ChenHeWang2024}}]
+For $1\le b'<n$, write $b'=i_1+\dots+i_{p-1}+s=i_2+\dots+i_q+t$ with $1\le p,q\le z$, $1\le s\le i_p$, $1\le t\le i_{q+1}$, and $i_{z+1}=i_1$. Define
+\[
+\Delta_I(b')=\begin{cases} s(i_p-s-i_1), & i_1\le i_p-s,\\ e_2(i_p-s,\,i_{p+1},\dots,i_q,\,t), & \text{otherwise.}\end{cases}
+\]
+\end{definition}
+
+\subsection{The input expansion}
+Fix $a\ge b\ge 3$, put $n=a+b+2$ and $B=b+2$. Then $B\ge5$ and $n-B=a$. The following identity is \cite[Theorem~3.1]{ChenHeWang2024} specialised to $c=3$, using reflection of prefix sums:
+\begin{equation}\label{eq:input}
+X_{\theta_{ab3}}=\sum_{I\models n}D_Iw_Ie_I,\qquad
+D_I=\Tp_I(2)+\Tp_I(3)-\Tp_I(B)-\Tp_I(B-1)+\Delta_I(B).
+\end{equation}
+This is the sole input taken from the literature. Identity~\eqref{eq:input} was also compared with a brute-force computation of $X_{\theta_{ab3}}$ for nine pairs $(a,b)$ (Section~\ref{sec:comp}), with exact agreement.
+
+\subsection{Notation for a fixed composition}
+For $I$ with $w_I\ne0$ write $x=i_1$. Let $p$ be the index of the part containing $B$, that is $P_I(p-1)<B\le P_I(p)$, and put $\sigma=P_I(p-1)$, $s=B-\sigma$ and $r=i_p-s\ge0$, so $1\le s\le i_p$ and $P_I(p)=B+r$. These $p,s$ coincide with those in the definition of $\Delta_I(B)$.
+
+\section{Reduction to prefix sums}
+
+\begin{lemma}\label{lem:phi}
+For every $I$ with $w_I\ne 0$,
+\[
+D_I=\Tp_I(2)+\Tp_I(3)-\Tp_I(B-1)-\Tp_I(B)+\Delta_I(B).
+\]
+\end{lemma}
+\begin{proof}
+This is exactly~\eqref{eq:input}. In Chen, He and Wang's notation the negative sum is $\Tm_{\rev I}(a)+\Tm_{\rev I}(a+1)$; the reflection identity gives $\Tp_I(B)+\Tp_I(B-1)$. Their alternative involution-based Theorem~3.2 gives the same coefficients when $c=3$, but that additional fact is not needed here.
+\end{proof}
+
+\begin{lemma}\label{lem:closed}
+Let $T(I)=\Tp_I(2)+\Tp_I(3)$ and $U(I)=\Tp_I(B-1)+\Tp_I(B)$. Then
+\[
+T=\begin{cases}2i_2-3,&x=1,\\ i_2-1,&x=2,\\ 2x-5,&x\ge3,\end{cases}\qquad
+U=\begin{cases}2r+1,&s\ge2,\\ r,&s=1.\end{cases}
+\]
+Consequently:
+\begin{enumerate}
+\item If $p=1$ (that is, $B\le x$), then $D_I=2B-6+\Delta_I(B)\ge4$.
+\item If $p\ge2$ and $r\ge x$ (branch~1), then $\Delta_I(B)=s(r-x)$, and $D_I=T-x$ if $s=1$, while $D_I=T-2x-1+(s-2)(r-x)$ if $s\ge2$.
+\item If $p\ge2$ and $r<x$ (branch~2), then $\Delta_I(B)=e_2(r,i_{p+1},\dots,i_q,t)$, the arguments form a weak composition of $x$, and $D_I=T-U+\Delta_I(B)$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+$T$ is read off from the first one or two prefix sums; for $x=1$ one uses $1+i_2\ge3$. The least prefix sum at least $B$ is $P(p)=B+r$; the least prefix sum at least $B-1$ is $\sigma$ when $s=1$ and $P(p)$ otherwise, which gives $U$. For $p=1$, $T=2x-5$ and $U=2(x-B)+1$ (as $s=B\ge2$), so $D=2B-6+\Delta\ge4$ by $B\ge5$ and $\Delta\ge0$. Branch~1 is the first case of $\Delta$, and $r\ge x$ forces $p\ge2$. In branch~2, from $B=i_2+\dots+i_q+t$ one gets $B+x=P(q)+t$, so $P(q)<B+x\le P(q+1)$ (indices cyclic). Since $B+x>P(p)$, $q\ge p$, and
+$r+(i_{p+1}+\dots+i_q)+t=(P(p)-B)+(P(q)-P(p))+(B+x-P(q))=x$.
+\end{proof}
+
+\section{The negative set}
+
+\begin{lemma}\label{lem:neg}
+Let $w_I\ne0$. Then $D_I<0$ exactly in the following cases, all with $p\ge2$:
+\begin{description}
+\item[N1] $s=1$, $r\ge x$, and
+\item[N2] $s\ge2$, $r=x-1$; in both, $D_I=T-x$, which is negative exactly when $x=2,\,i_2=2$ ($D=-1$), or $x=3$ ($D=-2$), or $x=4$ ($D=-1$);
+\item[N3] $s\ge2$, $r\ge x$, with $D_I=T-2x-1+(s-2)(r-x)<0$; explicitly: for $x=1$, $i_2=2$ and $(s-2)(r-1)\le1$, so $D\in\{-2,-1\}$; for $x=2$, $i_2-6+(s-2)(r-2)<0$; for $x\ge3$, $(s-2)(r-x)\le5$ and $D=-6+(s-2)(r-x)$.
+\end{description}
+In particular $D_I\ge-6$ for all $I$.
+\end{lemma}
+\begin{proof}
+N1 and N3 follow from Lemma~\ref{lem:closed}(2). For N1 with $x=1$, $D=2i_2-4\ge0$, so N1 requires $x\ge2$; for $x\ge5$, $T-x=x-5\ge0$. For N2, branch~2 with $r=x-1$ forces $q=p$ and $t=1$, so $\Delta=x-1$ and $D=T-2(x-1)-1+(x-1)=T-x$. The remaining cases are nonnegative:
+\begin{itemize}
+\item $s\ge2$, $r=0$: for $x\in\{1,2\}$ the weak composition after $r$ is just $t=x$, so $\Delta=0$ and $D=T-1$, which is $2i_2-4\ge0$ or $i_2-2\ge0$; for $x\ge3$, $D=2x-6+\Delta\ge0$.
+\item $s\ge2$, $1\le r\le x-2$ (so $x\ge3$): $\Delta\ge r(x-r)$, so $D\ge f(r):=2x-6-2r+r(x-r)$; $f$ is concave with $f(1)=3x-9\ge0$ and $f(x-2)=2x-6\ge0$.
+\item $s=1$, $r<x$: then $r=i_p-1\ge1$, so $x\ge2$. For $x=2$, $r=1$, $\Delta=1$ and $D=i_2-1\ge1$. For $x\ge3$, $D\ge2x-5+r(x-r-1)>0$.
+\item $p=1$: $D\ge4$ by Lemma~\ref{lem:closed}(1).\qedhere
+\end{itemize}
+\end{proof}
+
+\section{Regrouping}
+
+For a composition $H$ and threshold $y$, let $p=p(H;y)$ be the index of the part containing $y$ and set $\psi(H;y)=\rev{(h_1\cdots h_p)}\,h_{p+1}\cdots h_z$. Define
+\[
+\psi_3(H)=\begin{cases}(1)\cdot\psi(h_2h_3\cdots;\,B-1),& h_1=1,\\ \psi(H;B),&h_1\ge2.\end{cases}
+\]
+Since $\psi_3(H)$ is a rearrangement of $H$, $e_{\psi_3(H)}=e_H$. Hence
+\begin{equation}\label{eq:regroup}
+X_{\theta_{ab3}}=\sum_{J\notin N}c_Je_J,\qquad c_J=D_Jw_J+\sum_{H\in N,\ \psi_3(H)=J}D_Hw_H,
+\end{equation}
+provided $\psi_3(N)\cap N=\emptyset$: each nonnegative summand stays in place and each negative summand is moved to an identical symmetric-function term indexed by its target. Injectivity is not required, and collecting composition-level coefficients by partitions preserves nonnegativity. Theorem~\ref{thm:main} therefore reduces to showing that no target lies in $N$ and that every $c_J\ge0$.
+
+\begin{remark}\label{rem:noninj}
+The map $\psi_3$ is not injective on $N$. For $(a,b)=(4,3)$, both $(2,2,5)$ and $(2,5,2)$ map to $(5,2,2)$. The target has $D_Jw_J=12\cdot5=60$, while each source contributes $-1\cdot8=-8$, leaving $c_J=44$. For $(a,b)=(8,7)$, the compositions $(2,2,2,2,7,2)$, $(2,2,2,7,2,2)$ and $(2,2,7,2,2,2)$ all map to $(7,2,2,2,2,2)$. It is the entire weighted group, not any one pair, that must be nonnegative.
+\end{remark}
+
+\begin{lemma}[Preimage structure]\label{lem:pre}
+Fix a target $J$ with $J_1=m$. For $j\ge2$ let $H_j=\rev{(J_1\cdots J_j)}\,J_{j+1}\cdots$, so that $\sigma(H_j)=P_J(j)-m$, $s(H_j)=B+m-P_J(j)$ and $r(H_j)=P_J(j)-B$ whenever $p(H_j)=j$. Suppose $h_1\ge2$.
+\begin{enumerate}
+\item $p(H_j)=j$ if and only if the window condition $B\le P_J(j)\le B+m-1$ holds. This condition implies $\psi(H_j;B)=J$. Every negative preimage is obtained at its actual index $j=p(H)$; distinct admissible indices give distinct preimages. The converse from $\psi(H_j;B)=J$ alone need not hold, because a longer reversed prefix may be palindromic.
+\item Among such $H_j$, the N2 branch ($r_H=x_H-1$ with $s_H\ge2$) occurs exactly when $j=p(J)$, $P_J(j-1)=B-1$ and $m\ge J_j+1$ (equivalently $s_H=m-J_j+1\ge2$).
+\item Among such $H_j$, the N1/N3 branch ($r_H\ge x_H$) occurs exactly when $P_J(j-1)\ge B$.
+\item $w_{H_j}/w_J=J_j(m-1)/(m(J_j-1))<2$, and $w_J\ne0$.
+\end{enumerate}
+Membership $H_j\in N$ additionally requires $D_{H_j}<0$, which is decided by Lemma~\ref{lem:neg}; the branch conditions alone do not imply negativity. For example, with $B=10$ and $J=(11,9)$, $H_2=(9,11)$ satisfies the conditions in (3) but $D_{H_2}=4>0$.
+\end{lemma}
+\begin{proof}
+(1) The block $\rev{(J_1\cdots J_j)}$ ends with $J_1=m$ at position $j$ of $H_j$, and $P_{H_j}(j)=P_J(j)$, $P_{H_j}(j-1)=P_J(j)-m$. Thus $p(H_j)=j$ iff $P_J(j)-m<B\le P_J(j)$; reversing this actual prefix then gives $J$. Every negative $H$ with $\psi(H;B)=J$ has this form with $j=p(H)$, and $j\ge2$ since $p(H)=1$ forces $D_H\ge4$. Two admissible indices cannot give the same composition, since its actual index $p(H)$ is unique.
+(2)--(3) In $H_j$, $x_H=J_j$ and $r_H=P_J(j)-B$, so $r_H-x_H=P_J(j-1)-B$. Hence $r_H\ge x_H$ iff $P_J(j-1)\ge B$, and $r_H=x_H-1$ iff $P_J(j-1)=B-1$, which says $j=p(J)$ with $s(J)=1$. The N2 branch also needs $s_H=m-r_H=m-J_j+1\ge2$.
+(4) $H_j$ and $J$ have the same parts; the first part of $J$ is $m$ and that of $H_j$ is $J_j$, so the ratio is $J_j(m-1)/(m(J_j-1))$. All parts of $H$ are at least $2$, including $h_1$ by hypothesis. The same is true of its rearrangement $J$, so $w_J\ne0$ and $m\ge2$. The ratio is at most $J_j/(J_j-1)\le 2$ times $(m-1)/m<1$.
+\end{proof}
+
+\begin{lemma}[Groups with $h_1=1$]\label{lem:one}
+Let $J$ be the image under $\psi_3$ of some $H\in N$ with $h_1=1$. Then $D_J\ge0$ (so $J\notin N$) and $c_J\ge0$.
+\end{lemma}
+\begin{proof}
+Write $H=(1,K)$ and measure positions in $K$ relative to $B'=B-1$, with part index $p'$ and parameters $s,r$. By Lemma~\ref{lem:closed} (with $x=1$), $D_H=2k_1-4$ if $s=1$ or $r=0$, and $D_H=2k_1-6+(s-2)(r-1)$ otherwise. Hence $H\in N$ exactly when $p'\ge2$, $k_1=2$, $s\ge2$, $r\ge1$ and $(s-2)(r-1)\le1$; then $D_H\in\{-2,-1\}$. The target is $J=(1,K')$ with $K'=\rev{(k_1\cdots k_{p'})}\cdot k_{p'+1}\cdots$, and $w_J=w_H$ because parts of index at least $2$ are only permuted.
+
+Put $m=K'_1=s+r\ge3$. Applying Lemma~\ref{lem:pre}(1) to $K'$ with threshold $B'$, every preimage corresponds to an index $j$ with $K'_j=2$ (as $k_1=2$) and $r_j=P_{K'}(j)-B'\in[1,m-2]$. Distinct preimages have prefix sums $P_{K'}(j)$ differing by at least $2$ (all parts after the first are at least $2$), so their $r$-values differ by at least $2$. If $r_j\ge3$, then $(s_j-2)(r_j-1)\le1$ forces $s_j=2$, so $r_j=m-2$. The possible sets of $r$-values are therefore $\{1\}$, $\{2\}$, $\{m-2\}$, $\{1,m-2\}$ with $m\ge5$, and $\{2,m-2\}$ with $m\ge6$. The last is impossible: the member with $r=2$ needs $(s-2)(r-1)=m-4\le1$, i.e.\ $m\le5$.
+
+Let $j_0$ be the smallest preimage index. $D_J$ is computed by Lemma~\ref{lem:closed} with $x=1$, $i_2=m$:
+\begin{itemize}
+\item $r_{j_0}=1$: $P_{K'}(j_0-1)=B'-1$, so $s_J=1$ and $D_J=2m-4\ge2$; with two preimages $m\ge5$ and $D_J\ge6$.
+\item $r_{j_0}=2$: $B'$ is a prefix sum of $K'$, so $r_J=0$ and $D_J=2m-4\ge4$ (here $m\ge4$).
+\item $r_{j_0}\ge3$: $D_J\ge 2m-6\ge4$.
+\end{itemize}
+Every $|D_H|\le2$ and all weights in the group are equal, so $c_J/w_J=D_J+\sum D_H\ge0$ in each case, and $D_J\ge0$.
+\end{proof}
+
+\section{Groups with first part at least two}
+
+\begin{lemma}[Separated suffixes and one deficit]\label{lem:one-deficit}
+Let $g_1,\ldots,g_L\ge2$ and $t\ge1$ be integers, and set $S_i=g_{i+1}+\cdots+g_L+t$. If nonnegative costs $u_i$ satisfy $u_i\le g_iS_i$ except possibly when $S_i\in\{2,3\}$, then at most one index can have a positive deficit. If its deficit is at most $d\ge0$, then $\sum_i u_i\le\sum_i g_iS_i+d$.
+\end{lemma}
+\begin{proof}
+Successive suffixes differ by $g_{i+1}\ge2$, so two suffixes cannot both belong to $\{2,3\}$. Sum the nonpositive deficits and the possible single positive one. The hypotheses on costs will be verified below, rather than assumed for the graph coefficients.
+\end{proof}
+
+\begin{lemma}\label{lem:main}
+Let $J$ be the target of some $H\in N$ with $h_1\ge2$. Then
+\begin{enumerate}
+\item[(i)] $D_J>0$; in particular $J\notin N$;
+\item[(ii)] $c_J\ge0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{remark}
+For $(a,b)=(4,4)$ and $J=(4,2,2,2)$ the source $(2,2,4,2)$ gives exact cancellation: $6\cdot4-4\cdot6=0$. Proposition~\ref{prop:equality} below classifies all such zero-sum nonempty groups with first part at least two. This is a statement about the regrouping, not a classification of zero partition coefficients.
+\end{remark}
+
+\begin{proof}[Proof of Lemma~\ref{lem:main}]
+\emph{Setup.} Put $m=J_1$. By Lemma~\ref{lem:pre}, each $H$ in the group equals $H_j$ for some $j\ge2$ satisfying $B\le P_J(j)\le B+m-1$. For $H_j$: $x=y:=J_j$, $i_p=m$, $i_2(H_j)=J_{j-1}$, $r_H=P_J(j)-B$, $s_H=m-r_H$, and $w_{H_j}=\rho(y)w_J$ with $\rho(y)=y(m-1)/(m(y-1))$. All $J_i$ with $i\ge2$ are at least $2$.
+
+Let $k=p(J)$, $s_J=s(J)$ and $r=r(J)=P_J(k)-B$. If $r\ge m$, no $j$ satisfies the window condition with $H_j\in N$: $j=k$ gives $s_H\le0$ and $j>k$ gives $P_J(j)\ge B+m$. Hence $r\le m-1$, and $J$ lies in branch~2 of Lemma~\ref{lem:closed} (also when $k=1$, since then $r=m-B<m$). Let $q\le\ell(J)$ be maximal with $P_J(q)<B+m$ and $t=B+m-P_J(q)\ge1$. The \emph{gap vector} is
+\[
+g=(r,g_1,\dots,g_L,t),\qquad g_i=J_{k+i}\ge2,\quad L=q-k,\qquad r+\textstyle\sum g_i+t=m,
+\]
+and $\Delta_J(B)=e_2(g)$. If $B+m>n$, the terminal amount $t$ lies in the cyclic copy of the first part; no full part beyond index $\ell(J)$ is introduced. Put $R_i=r+g_1+\dots+g_i$ and $S_i=g_{i+1}+\dots+g_L+t$, so $S_0=m-r$ and $S_L=t$.
+
+\emph{Classification of preimages.} By Lemma~\ref{lem:neg}, $H_j\in N$ requires $r_H\ge y$ (N1/N3) or $r_H=y-1$ with $s_H\ge2$ (N2). By Lemma~\ref{lem:pre}, $r_H\ge y$ iff $j\ge k+1$, and the window gives $j\le q$; and $r_H=y-1$ iff $j=k$ and $s_J=1$ (so $k\ge2$). The candidates are:
+\begin{itemize}
+\item \emph{N2 at $j=k$}: needs $k\ge2$, $s_J=1$, $S_0\ge2$, and $y=J_k=r+1$. By Lemma~\ref{lem:neg}, $D_H<0$ only for $y=2$ with $J_{k-1}=2$ ($D=-1$), $y=3$ ($D=-2$), $y=4$ ($D=-1$). Its cost $\rho(y)|D_H|$ satisfies $\cost_{N2}\le 3(m-1)/m<3$.
+\item \emph{Gap index $i\in\{1,\dots,L\}$} ($j=k+i$): $y=g_i$, $r_H=R_i$, $s_H=S_i$, $r_H-y=R_{i-1}$. The type is N1 iff $i=L$ and $t=1$; otherwise N3, with $D_H=-6+(S_i-2)R_{i-1}$ for $y\ge3$ and $D_H=J_{j-1}-6+(S_i-2)R_{i-1}$ for $y=2$; in the latter case $J_{j-1}\ge2$ gives $-D_H\le4$.
+\end{itemize}
+
+\emph{Gap decomposition of $D_J$.} If $m=2$ then $L=0$ and $r+t=2$; N2 would need $r\ge1$ and $S_0=2-r\ge2$, which is impossible, so there are no preimages. Let $m\ge3$; then $T(J)=2m-5$, and $U(J)=r$ if $s_J=1$ and $2r+1$ otherwise (also for $k=1$, where $s_J=B\ge2$). Expanding $e_2(g)$ as each entry times the sum of later entries,
+\[
+D_J=A+\sum_{i=1}^{L}g_iS_i,\qquad A:=2m-5-U+r(m-r),
+\]
+so $A=2m-6+r(m-r-2)$ if $s_J\ge2$ and $A=2m-5+r(m-r-1)$ if $s_J=1$.
+
+\emph{Per-gap bound.} For a gap index $i$ let $\cost_i=\rho(y)\max(0,-D_{H_j})$ and $\mathrm{def}_i=\cost_i-g_iS_i$. Use $\rho(y)\le y/(y-1)$ and $(m-1)/m<1$.
+\begin{itemize}
+\item N1 ($S_L=1$): for $y=2$, $\cost\le 2(m-1)/m<2=g_iS_i$; for $y=3$, $\cost=3(m-1)/m<3$; for $y=4$, $\cost<4/3<4$; for $y\ge5$, $D_H=y-5\ge0$. No deficit.
+\item N3, $y\ge3$ (so $\cost\le 6\rho(y)$): if $S_i=2$, $\mathrm{def}_i\le 6y(m-1)/(m(y-1))-2y$, which equals $3-9/m$ for $y=3$ and is negative for $y\ge4$; if $S_i=3$, $\mathrm{def}_i\le 6y/(y-1)-3y=-3y(y-3)/(y-1)\le0$; if $S_i\ge4$, $g_iS_i\ge4y\ge 6y/(y-1)\ge\cost_i$.
+\item N3, $y=2$ ($\cost\le4\rho(2)=8(m-1)/m$): $S_i=2$ gives $\mathrm{def}_i\le4-8/m$; $S_i=3$ gives $\mathrm{def}_i\le2-8/m$; $S_i\ge4$ gives $g_iS_i\ge8>\cost_i$.
+\end{itemize}
+Thus a positive deficit requires an N3 index with $S_i\in\{2,3\}$, the setting of Lemma~\ref{lem:one-deficit}. Since $S_L=t$ and $S_{L-1}=g_L+t\ge t+2$, this happens for at most one index: $i=L$ if $t\in\{2,3\}$, or $i=L-1$ if $t=1$ and $g_L=2$ (the index $L$ then being N1). Let $\delta$ be that deficit ($\delta=0$ if there is none). Then $\delta\le 4-8/m<4$, and the deficit index has $y+S_i\le m-r$.
+
+\emph{Conclusion.} Every non-deficit gap index, whether or not it carries a preimage, has $g_iS_i\ge\cost_i\ge0$, so
+\[
+c_J/w_J=D_J-\cost_{N2}-\sum_i\cost_i\ \ge\ A-\cost_{N2}-\delta.
+\]
+If $\delta>0$ or a gap preimage exists, then $L\ge1$, so $m-r\ge 2+1=3$ and $r(m-r-2)\ge0$.
+\begin{itemize}
+\item $s_J\ge2$ (this includes $k=1$; there is no N2 preimage): $A\ge2m-6$. A deficit with $y=2$, $S_i=2$ needs $m\ge4$, and $2m-6-(4-8/m)=2(m-1)(m-4)/m\ge0$. The deficits with $y=3,S_i=2$ or $y=2,S_i=3$ need $m\ge5$, where $A\ge4>3>\delta$. Without a deficit, $A\ge0$ when $L\ge1$, and when $L=0$ there are no gap preimages and no N2 preimage, so the group is empty.
+\item $s_J=1$ without N2: $A\ge2m-5$, which is at least $4-8/m$ for $m\ge4$, and at least $3$ for $m\ge5$ when $y+S_i\ge5$; with no deficit $A\ge1$.
+\item $s_J=1$ with N2 ($r=y-1\in\{1,2,3\}$): if $L\ge1$, then $m-r\ge3$, so $r(m-r-1)\ge2r$ and $A\ge2m-3$. With a deficit, $m\ge r+g_i+S_i\ge5$, so $A\ge7$; since $\cost_{N2}<3$ and $\delta\le4-8/m<4$ strictly, $\cost_{N2}+\delta<7\le A$. Without a deficit, $A\ge5>3>\cost_{N2}$. If $L=0$ (then $S_0=t\ge2$ and there are no gap preimages), $A=2m-5+r(m-r-1)$ equals $3m-7\ge2>2(m-1)/m$ for $r=1$, equals $4m-11\ge5>3$ for $r=2$, and is at least $8$ for $r=3$; in each case $A>\cost_{N2}$.
+\end{itemize}
+Hence $c_J\ge0$, proving (ii). For (i): the group is nonempty and every $D_Hw_H<0$, so $D_Jw_J\ge\sum_H|D_H|w_H>0$.
+\end{proof}
+
+\begin{proposition}[Sharp zero-group classification]\label{prop:equality}
+For a nonempty group in Lemma~\ref{lem:main}, $c_J=0$ if and only if
+\[
+m=4,\quad r=0,\quad L=1,\quad g=(0,2,2),\quad J_k=2.
+\]
+\end{proposition}
+\begin{proof}
+Every $s_J=1$ case in the proof is strict. Without N2, $2m-5$ strictly exceeds each possible positive deficit; with N2 the displayed estimates are strict. If $s_J\ge2$, deficit types $(3,2)$ and $(2,3)$ require $m\ge5$ and are strictly below $A\ge4$. Type $(2,2)$ leaves the lower bound $2(m-1)(m-4)/m$, positive unless $m=4$. At $m=4$, the total gap length forces $r=0$, $L=1$, $g_1=t=2$. Here $A=2$, the sole gain is $4$, and its candidate source has coefficient $J_k-6$ and weight ratio $3/2$. Consequently
+\[
+c_J/w_J=6-\tfrac32\max(0,6-J_k),
+\]
+which is zero exactly when $J_k=2$, since $J_k\ge2$. Conversely these values give a negative source of coefficient $-4$ and exact cancellation.
+With no positive deficit, $A>0$ for $m\ge4$. The only remaining nonempty possibility $m=3$ forces $(r,g_1,t)=(0,2,1)$; its N1 cost is at most $4/3$, strictly less than its gain $2$. Thus no further equality is possible.
+\end{proof}
+
+\section{Proof of Theorem~\ref{thm:main}}
+
+By~\eqref{eq:input}, $X_{\theta_{ab3}}=\sum_ID_Iw_Ie_I$. By Lemma~\ref{lem:one} and Lemma~\ref{lem:main}(i), no target of $\psi_3$ lies in $N$, so the regrouping~\eqref{eq:regroup} is valid. Every $J\notin N$ that is not a target has $c_J=D_Jw_J\ge0$, and every target has $c_J\ge0$ by Lemma~\ref{lem:one} and Lemma~\ref{lem:main}(ii). Collecting by partitions, the coefficient of each $e_\lambda$ in $X_{\theta_{ab3}}$ is a sum of nonnegative numbers. \qed
+
+\section{Computational verification}\label{sec:comp}
+
+All computations use exact integer or rational arithmetic. The scripts are \texttt{code/verify\_all.py}, \texttt{code/lemma6\_check.py} and \texttt{code/verify\_csf.py}, with shared definitions in \texttt{code/lib3.py}.
+\begin{itemize}
+\item \emph{Input identity.} \texttt{verify\_csf.py} computes $X_{\theta_{ab3}}$ by brute force (subset expansion and conversion to the $e$-basis) and compares it with~\eqref{eq:input} for the nine pairs $(a,b)=(3,3)$, $(4,3)$, $(5,3)$, $(4,4)$, $(6,3)$, $(5,4)$, $(7,3)$, $(6,4)$, $(5,5)$, i.e.\ $n\le12$. All agree.
+\item \emph{Lemmas~\ref{lem:phi}--\ref{lem:one} and final nonnegativity.} \texttt{verify\_all.py 24} covers all $81$ pairs $3\le b\le a$ with $n\le24$: $971{,}165$ compositions with $w_I\ne0$ and $170{,}224$ groups ($45{,}899$ with $h_1=1$, $124{,}325$ with $h_1\ge2$). It checks Lemmas~\ref{lem:phi}, \ref{lem:closed} and \ref{lem:neg} on every composition, the preimage bounds of Lemma~\ref{lem:one}, and $c_J\ge0$ for every group. No failures.
+\item \emph{Lemma~\ref{lem:main}.} \texttt{lemma6\_check.py 24} checks, for all $124{,}325$ groups with $h_1\ge2$, that the predicted preimage set equals the actual one, the weight ratios, the decomposition $D_J=A+\sum g_iS_i$, each per-gap and N2 bound, that at most one deficit occurs, $A-\cost_{N2}-\delta\ge0$, $D_J>0$ and $c_J\ge0$. It finds $65$ distinct preimage patterns, all covered by the proof (which does not enumerate them), and $3{,}926$ groups with $c_J=0$, all of the shape in Proposition~\ref{prop:equality}. No failures.
+\end{itemize}
+Independently of the lemmas, the final check shows that $\theta_{ab3}$ is $e$-positive for all $n\le24$.
+
+\section{Scope and larger shortest paths}\label{sec:general}
+
+The general expansion is already available in Chen, He and Wang's Theorem~3.1. With $B=b+c-1$ it reads
+\[
+X_{\theta_{abc}}=\sum_{I\models a+b+c-1}\widehat D_Iw_Ie_I,\qquad
+\widehat D_I=\Delta_I(B)+\sum_{k=2}^{c}\Tp_I(k)
+-\sum_{k=B-c+2}^{B}\Tp_I(k).
+\]
+Their proof also supplies the equivalent expansion
+\[
+C_I=\Delta_I(b)+\sum_{k=2}^{c}\Tp_I(k)
+-\sum_{k=a+1}^{a+c-1}\Tp_I(k).
+\]
+Equality of the resulting symmetric functions does not require pointwise equality of composition coefficients: rearrangements index the same $e_\lambda$. Thus failure of pointwise agreement with their involution-based formula for $c\ge4$ is not a failure of the general expansion.
+
+Writing $\sigma_I^+(x)=x+\Tp_I(x)$ shows that $C_I<0$ requires at least one $k$ with
+$\sigma_I^+(k+a-1)-\sigma_I^+(k)>a-1$, since $\Delta_I(b)\ge0$. This jump may traverse several parts; it need not identify one long part. For $\theta_{422}$ and $I=(2,2,3)$ one has $C_I=-2$ although every part is smaller than $a=4$.
+
+The present proof does not establish positivity for $c\ge4$. Earlier exploratory suffix-dominance and max-flow claims are not used or retained as evidence: their generating scripts and complete receipts were absent from the submitted archive. A larger-$c$ proof would require adequate control of full weighted preimages, not a new starting expansion. The one-deficit mechanism proved here is specific to the stated coefficient bounds; its usefulness for a second graph family has not been established.
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}
